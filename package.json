@@ -7,6 +7,7 @@
     "check": "turbo run check",
     "dev": "turbo run dev",
     "format": "oxfmt --write .",
+    "format:check": "oxfmt --check .",
     "lint": "oxlint .",
     "typecheck": "turbo run typecheck"
   },
