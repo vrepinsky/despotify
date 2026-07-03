@@ -5,7 +5,12 @@
   "scripts": {
     "build": "turbo run build",
     "check": "turbo run check",
+    "db:down": "docker compose stop db",
+    "db:logs": "docker compose logs -f db",
+    "db:up": "docker compose up -d db",
     "dev": "turbo run dev",
+    "docker:down": "docker compose down",
+    "docker:up": "docker compose up",
     "format": "oxfmt --write .",
     "format:check": "oxfmt --check .",
     "lint": "oxlint .",
