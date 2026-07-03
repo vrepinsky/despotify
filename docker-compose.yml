@@ -22,18 +22,15 @@ services:
       db:
         condition: service_healthy
     environment:
-      DATABASE_URL: postgres://despotify:despotify@db:5432/despotify
       PORT: 3000
       WEB_ORIGIN: http://localhost:5173
-      SPOTIFY_CLIENT_ID: ${SPOTIFY_CLIENT_ID:-}
-      SPOTIFY_CLIENT_SECRET: ${SPOTIFY_CLIENT_SECRET:-}
     ports:
       - "3000:3000"
     volumes:
       - .:/workspace
       - api-node-modules:/workspace/node_modules
       - api-app-node-modules:/workspace/apps/api/node_modules
-    command: sh -c "corepack enable && pnpm install && pnpm --filter @despotify/api db:migrate && pnpm --filter @despotify/api dev"
+    command: sh -c "corepack enable && pnpm install && pnpm --filter @despotify/api dev"
 
   web:
     image: node:22-alpine

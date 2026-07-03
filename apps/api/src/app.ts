@@ -9,7 +9,6 @@ import {
 
 import { config } from "./config.js";
 import { healthRoutes } from "./routes/health.js";
-import { playlistRoutes } from "./routes/playlists.js";
 
 export async function buildApp() {
   const app = Fastify({
@@ -27,7 +26,6 @@ export async function buildApp() {
   });
 
   await app.register(healthRoutes);
-  await app.register(playlistRoutes, { prefix: "/api" });
 
   return app;
 }
