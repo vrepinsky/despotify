@@ -1,3 +1,4 @@
+import { randomInt } from "node:crypto";
 import { sql } from "drizzle-orm";
 import {
   index,
@@ -12,6 +13,18 @@ import {
   uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
+
+const publicIdAlphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+function createPublicId() {
+  let id = "";
+
+  for (let index = 0; index < 8; index += 1) {
+    id += publicIdAlphabet[randomInt(publicIdAlphabet.length)];
+  }
+
+  return id;
+}
 
 export const playlistSource = pgEnum("playlist_source", ["spotify"]);
 
@@ -34,6 +47,7 @@ export const playlists = pgTable(
   "playlists",
   {
     id: uuid("id").primaryKey().defaultRandom(),
+    publicId: text("public_id").notNull().$defaultFn(createPublicId),
     source: playlistSource("source").notNull().default("spotify"),
     sourceUrl: text("source_url").notNull(),
     sourcePlaylistId: text("source_playlist_id"),
@@ -46,6 +60,7 @@ export const playlists = pgTable(
     metadata: jsonb("metadata").$type<Record<string, unknown>>().notNull().default({}),
   },
   (table) => ({
+    publicIdUnique: uniqueIndex("playlists_public_id_unique").on(table.publicId),
     sourcePlaylistIdIdx: index("playlists_source_playlist_id_idx").on(table.sourcePlaylistId),
     sourceUrlUnique: uniqueIndex("playlists_source_url_unique").on(table.sourceUrl),
   }),
@@ -55,6 +70,7 @@ export const tracks = pgTable(
   "tracks",
   {
     id: uuid("id").primaryKey().defaultRandom(),
+    publicId: text("public_id").notNull().$defaultFn(createPublicId),
     title: text("title").notNull(),
     artistName: text("artist_name").notNull(),
     albumName: text("album_name"),
@@ -72,6 +88,7 @@ export const tracks = pgTable(
     isrcUnique: uniqueIndex("tracks_isrc_unique")
       .on(table.isrc)
       .where(sql`${table.isrc} is not null`),
+    publicIdUnique: uniqueIndex("tracks_public_id_unique").on(table.publicId),
   }),
 );
 
