@@ -57,10 +57,12 @@ API_ALLOWED_WEB_ORIGIN=http://localhost:3000
 DB_NAME=despotify
 DB_USER=despotify
 DB_PASSWORD=despotify
+DB_HOST=localhost
+DB_PORT=5432
 ```
 
 - `WEB_PORT`: port used by the Vite frontend dev server.
 - `VITE_API_URL`: API URL compiled into the Vite frontend.
 - `API_PORT`: port used by the Fastify API.
 - `API_ALLOWED_WEB_ORIGIN`: frontend origin allowed by API CORS.
-- `DB_*`: local Postgres container settings.
+- `DB_*`: local Postgres connection settings.
