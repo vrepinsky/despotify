@@ -3,6 +3,7 @@ import { setup } from "goober";
 import React from "react";
 import { createRoot } from "react-dom/client";
 
+import { AppDataProvider, PlaylistsProvider, TracksProvider } from "./data-providers.tsx";
 import { router } from "./router.tsx";
 import "./styles.css";
 
@@ -16,6 +17,12 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AppDataProvider>
+      <PlaylistsProvider>
+        <TracksProvider>
+          <RouterProvider router={router} />
+        </TracksProvider>
+      </PlaylistsProvider>
+    </AppDataProvider>
   </React.StrictMode>,
 );
