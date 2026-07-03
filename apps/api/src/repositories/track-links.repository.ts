@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import type { DbClient } from "../db/client.js";
 import { trackLinks } from "../db/schema.js";
+import { assertUuid } from "../helpers/validation.helper.js";
 import type { NewTrackLink } from "../types/track-links.types.js";
 
 export class TrackLinksRepository {
@@ -29,6 +30,8 @@ export class TrackLinksRepository {
   }
 
   async markIncorrect(id: string) {
+    assertUuid(id);
+
     const [link] = await this.db
       .update(trackLinks)
       .set({

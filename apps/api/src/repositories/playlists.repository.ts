@@ -1,6 +1,7 @@
 import { asc, eq, sql } from "drizzle-orm";
 import type { DbClient } from "../db/client.js";
 import { playlistTracks, playlists } from "../db/schema.js";
+import { assertNonEmptyString, assertUuid } from "../helpers/validation.helper.js";
 import type { NewPlaylist } from "../types/playlists.types.js";
 
 export class PlaylistsRepository {
@@ -43,6 +44,8 @@ export class PlaylistsRepository {
   }
 
   async findBySourceUrl(sourceUrl: string) {
+    assertNonEmptyString(sourceUrl, "sourceUrl");
+
     const [playlist] = await this.db
       .select()
       .from(playlists)
@@ -53,6 +56,8 @@ export class PlaylistsRepository {
   }
 
   async touchImport(id: string) {
+    assertUuid(id);
+
     const [playlist] = await this.db
       .update(playlists)
       .set({ lastImportedAt: new Date() })
