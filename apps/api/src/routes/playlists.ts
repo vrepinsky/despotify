@@ -70,6 +70,14 @@ export const playlistRoutes: FastifyPluginAsyncZod = async (app) => {
       },
     },
     async (request) => {
+      const playlist = await app.appContext.repositories.playlists.findByPublicId(
+        request.params.playlistId,
+      );
+
+      if (!playlist) {
+        throw app.httpErrors.notFound("Playlist not found.");
+      }
+
       const tracks = await app.appContext.repositories.tracks.listByPlaylistPublicId(
         request.params.playlistId,
       );

@@ -1,7 +1,7 @@
 import { asc, eq, sql } from "drizzle-orm";
 import type { DbClient } from "../db/client.js";
 import { playlistTracks, playlists } from "../db/schema.js";
-import { assertNonEmptyString, assertUuid } from "../helpers/validation.helper.js";
+import { assertNonEmptyString, assertPublicId, assertUuid } from "../helpers/validation.helper.js";
 import type { NewPlaylist } from "../types/playlists.types.js";
 
 export class PlaylistsRepository {
@@ -50,6 +50,18 @@ export class PlaylistsRepository {
       .select()
       .from(playlists)
       .where(eq(playlists.sourceUrl, sourceUrl))
+      .limit(1);
+
+    return playlist ?? null;
+  }
+
+  async findByPublicId(publicId: string) {
+    assertPublicId(publicId);
+
+    const [playlist] = await this.db
+      .select()
+      .from(playlists)
+      .where(eq(playlists.publicId, publicId))
       .limit(1);
 
     return playlist ?? null;
