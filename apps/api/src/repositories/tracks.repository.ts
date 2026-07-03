@@ -1,6 +1,4 @@
-import { eq } from "drizzle-orm";
-import type { InferInsertModel } from "drizzle-orm";
-
+import { eq, type InferInsertModel } from "drizzle-orm";
 import type { DbClient } from "../db/client.js";
 import { tracks } from "../db/schema.js";
 

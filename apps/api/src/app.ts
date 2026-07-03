@@ -6,7 +6,6 @@ import {
   validatorCompiler,
   type ZodTypeProvider,
 } from "fastify-type-provider-zod";
-
 import { createAppContext } from "./app-context.js";
 import { config } from "./config.js";
 import { healthRoutes } from "./routes/health.js";

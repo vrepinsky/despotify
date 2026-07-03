@@ -1,5 +1,4 @@
 import type { InferInsertModel } from "drizzle-orm";
-
 import type { DbClient } from "../db/client.js";
 import { trackExternalIds } from "../db/schema.js";
 
