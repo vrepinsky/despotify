@@ -9,6 +9,7 @@ import {
 import { createAppContext } from "./app-context.js";
 import { config } from "./config.js";
 import { healthRoutes } from "./routes/health.js";
+import { playlistRoutes } from "./routes/playlists.js";
 
 export async function buildApp() {
   const appContext = createAppContext();
@@ -32,6 +33,7 @@ export async function buildApp() {
   });
 
   await app.register(healthRoutes);
+  await app.register(playlistRoutes);
 
   return app;
 }
