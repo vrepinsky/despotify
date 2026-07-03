@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2022": true
+  },
+  "plugins": ["typescript", "react", "react-hooks", "unicorn"],
+  "rules": {
+    "no-console": "off",
+    "typescript/consistent-type-imports": "error"
+  }
+}

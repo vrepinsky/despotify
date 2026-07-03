@@ -1,0 +1,21 @@
+{
+  "name": "despotify",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "check": "turbo run check",
+    "dev": "turbo run dev",
+    "format": "oxfmt --write .",
+    "lint": "oxlint .",
+    "typecheck": "turbo run typecheck"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "oxfmt": "^0.57.0",
+    "oxlint": "^1.0.0",
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.2"
+  },
+  "packageManager": "pnpm@10.24.0"
+}
