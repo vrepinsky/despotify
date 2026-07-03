@@ -1,8 +1,7 @@
-import { eq, type InferInsertModel } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import type { DbClient } from "../db/client.js";
 import { trackLinks } from "../db/schema.js";
-
-type NewTrackLink = InferInsertModel<typeof trackLinks>;
+import type { NewTrackLink } from "../types/track-links.types.js";
 
 export class TrackLinksRepository {
   constructor(private readonly db: DbClient) {}

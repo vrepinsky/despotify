@@ -1,8 +1,7 @@
-import { asc, eq, sql, type InferInsertModel } from "drizzle-orm";
+import { asc, eq, sql } from "drizzle-orm";
 import type { DbClient } from "../db/client.js";
 import { playlistTracks, playlists } from "../db/schema.js";
-
-type NewPlaylist = InferInsertModel<typeof playlists>;
+import type { NewPlaylist } from "../types/playlists.types.js";
 
 export class PlaylistsRepository {
   constructor(private readonly db: DbClient) {}

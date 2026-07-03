@@ -1,30 +1,12 @@
-import { asc, eq, type InferInsertModel } from "drizzle-orm";
+import { asc, eq } from "drizzle-orm";
 import type { DbClient } from "../db/client.js";
 import { playlists, playlistTracks, trackLinks, tracks } from "../db/schema.js";
-
-type NewTrack = InferInsertModel<typeof tracks>;
-type TrackLinkSource = "bandcamp" | "youtube" | "soundcloud" | "other";
-type TrackLinkStatus = "accepted" | "incorrect" | "unknown";
-type TrackLinkType = "paid" | "free_download" | "stream" | "unknown";
-type PlaylistTrackWithLinks = {
-  albumName: string | null;
-  altLinks: {
-    artistName: string | null;
-    confidence: string | null;
-    source: TrackLinkSource;
-    status: TrackLinkStatus;
-    title: string | null;
-    type: TrackLinkType;
-    url: string;
-  }[];
-  artistName: string;
-  durationMs: number | null;
-  isrc: string | null;
-  position: number;
-  publicId: string;
-  releaseYear: number | null;
-  title: string;
-};
+import type {
+  TrackLinkSource,
+  TrackLinkStatus,
+  TrackLinkType,
+} from "../types/track-links.types.js";
+import type { NewTrack, PlaylistTrackWithLinks } from "../types/tracks.types.js";
 
 export class TracksRepository {
   constructor(private readonly db: DbClient) {}
