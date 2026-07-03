@@ -2,7 +2,7 @@ import { createRootRoute, createRoute, createRouter, Outlet } from "@tanstack/re
 import { styled } from "goober";
 import { useEffect, useState } from "react";
 
-const apiUrl = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
+const apiUrl = import.meta.env.VITE_API_URL ?? "http://localhost:5000";
 
 type HealthState = "checking" | "ok" | "error";
 

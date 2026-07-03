@@ -24,7 +24,7 @@ cp .env.example .env
 pnpm dev
 ```
 
-Open `http://localhost:5173`.
+Open `http://localhost:3000`.
 
 For Docker Compose:
 
@@ -33,8 +33,8 @@ cp .env.example .env
 docker compose up
 ```
 
-The API is available at `http://localhost:3000`, and the web app is available at
-`http://localhost:5173`.
+The API is available at `http://localhost:5000`, and the web app is available at
+`http://localhost:3000`.
 
 ## Useful Commands
 
@@ -48,16 +48,19 @@ pnpm build
 ## Environment
 
 ```sh
-API_PORT=3000
-API_ALLOWED_WEB_ORIGIN=http://localhost:5173
-VITE_API_URL=http://localhost:3000
+WEB_PORT=3000
+VITE_API_URL=http://localhost:5000
+
+API_PORT=5000
+API_ALLOWED_WEB_ORIGIN=http://localhost:3000
 
 DB_NAME=despotify
 DB_USER=despotify
 DB_PASSWORD=despotify
 ```
 
+- `WEB_PORT`: port used by the Vite frontend dev server.
+- `VITE_API_URL`: API URL compiled into the Vite frontend.
 - `API_PORT`: port used by the Fastify API.
 - `API_ALLOWED_WEB_ORIGIN`: frontend origin allowed by API CORS.
-- `VITE_API_URL`: API URL compiled into the Vite frontend.
 - `DB_*`: local Postgres container settings.
