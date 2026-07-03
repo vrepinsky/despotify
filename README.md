@@ -43,6 +43,8 @@ pnpm lint
 pnpm format
 pnpm typecheck
 pnpm build
+pnpm --filter @despotify/api db:migrate
+pnpm --filter @despotify/api db:seed
 ```
 
 ## Environment
