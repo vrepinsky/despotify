@@ -44,3 +44,20 @@ pnpm format
 pnpm typecheck
 pnpm build
 ```
+
+## Environment
+
+```sh
+API_PORT=3000
+API_ALLOWED_WEB_ORIGIN=http://localhost:5173
+VITE_API_URL=http://localhost:3000
+
+DB_NAME=despotify
+DB_USER=despotify
+DB_PASSWORD=despotify
+```
+
+- `API_PORT`: port used by the Fastify API.
+- `API_ALLOWED_WEB_ORIGIN`: frontend origin allowed by API CORS.
+- `VITE_API_URL`: API URL compiled into the Vite frontend.
+- `DB_*`: local Postgres container settings.

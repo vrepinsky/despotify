@@ -22,7 +22,7 @@ export async function buildApp() {
 
   await app.register(sensible);
   await app.register(cors, {
-    origin: config.WEB_ORIGIN,
+    origin: config.API_ALLOWED_WEB_ORIGIN,
   });
 
   await app.register(healthRoutes);

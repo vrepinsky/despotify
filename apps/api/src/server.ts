@@ -17,5 +17,5 @@ process.on("SIGTERM", () => {
 
 await app.listen({
   host: "0.0.0.0",
-  port: config.PORT,
+  port: config.API_PORT,
 });
