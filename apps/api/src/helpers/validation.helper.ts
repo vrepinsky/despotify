@@ -1,3 +1,5 @@
+export const publicIdPattern = /^[a-zA-Z0-9]{8}$/;
+
 export function assertNonEmptyString(value: string, name: string) {
   if (value.trim().length === 0) {
     throw new Error(`${name} must not be empty.`);
@@ -5,7 +7,7 @@ export function assertNonEmptyString(value: string, name: string) {
 }
 
 export function assertPublicId(value: string, name = "publicId") {
-  if (!/^[a-zA-Z0-9]{8}$/.test(value)) {
+  if (!publicIdPattern.test(value)) {
     throw new Error(`${name} must be an 8 character alphanumeric string.`);
   }
 }

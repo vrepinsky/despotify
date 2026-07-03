@@ -1,5 +1,6 @@
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { z } from "zod";
+import { publicIdPattern } from "../helpers/validation.helper.js";
 
 const playlistSchema = z.object({
   authorName: z.string().nullable(),
@@ -59,7 +60,7 @@ export const playlistRoutes: FastifyPluginAsyncZod = async (app) => {
     {
       schema: {
         params: z.object({
-          playlistId: z.string().length(8),
+          playlistId: z.string().regex(publicIdPattern),
         }),
         response: {
           200: z.object({
