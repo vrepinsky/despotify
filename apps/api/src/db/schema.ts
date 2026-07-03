@@ -1,4 +1,3 @@
-import { randomInt } from "node:crypto";
 import { sql } from "drizzle-orm";
 import {
   index,
@@ -13,18 +12,7 @@ import {
   uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
-
-const publicIdAlphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-
-function createPublicId() {
-  let id = "";
-
-  for (let index = 0; index < 8; index += 1) {
-    id += publicIdAlphabet[randomInt(publicIdAlphabet.length)];
-  }
-
-  return id;
-}
+import { createPublicId } from "../helpers/id.helper.ts";
 
 export const playlistSource = pgEnum("playlist_source", ["spotify"]);
 
