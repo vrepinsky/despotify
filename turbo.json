@@ -1,19 +1,20 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalEnv": ["API_*", "DB_*", "LOG_LEVEL", "VITE_*", "WEB_PORT"],
+  "globalEnv": ["API_*", "DB_*", "LOG_LEVEL", "SPOTIFY_*", "VITE_*", "WEB_PORT"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
     "check": {
-      "dependsOn": ["typecheck", "lint"]
+      "dependsOn": ["typecheck", "lint", "test"]
     },
     "dev": {
       "cache": false,
       "persistent": true
     },
     "lint": {},
+    "test": {},
     "typecheck": {
       "dependsOn": ["^typecheck"]
     }

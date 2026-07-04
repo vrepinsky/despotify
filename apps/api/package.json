@@ -11,6 +11,7 @@
     "dev": "tsx watch src/server.ts",
     "lint": "oxlint .",
     "start": "node dist/server.js",
+    "test": "vitest run",
     "typecheck": "tsc --project tsconfig.json"
   },
   "dependencies": {
@@ -28,6 +29,7 @@
     "@types/pg": "^8.11.10",
     "drizzle-kit": "^0.30.1",
     "tsup": "^8.3.5",
-    "tsx": "^4.19.2"
+    "tsx": "^4.19.2",
+    "vitest": "^4.1.9"
   }
 }
