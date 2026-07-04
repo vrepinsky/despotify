@@ -11,6 +11,8 @@ const envSchema = z.object({
   DB_PASSWORD: z.string().default("despotify"),
   DB_PORT: z.coerce.number().int().positive().default(5432),
   DB_USER: z.string().default("despotify"),
+  SPOTIFY_CLIENT_ID: z.string().optional(),
+  SPOTIFY_CLIENT_SECRET: z.string().optional(),
 });
 
 export const config = envSchema.parse(process.env);
