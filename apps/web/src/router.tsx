@@ -1,6 +1,14 @@
-import { createRootRoute, createRoute, createRouter, Link, Outlet } from "@tanstack/react-router";
+import {
+  createRootRoute,
+  createRoute,
+  createRouter,
+  Link,
+  Outlet,
+  useNavigate,
+} from "@tanstack/react-router";
 import { styled } from "goober";
-import { usePlaylists, useTracks } from "./data-providers";
+import { type FormEvent, useState } from "react";
+import { useImportPlaylist, usePlaylists, useTracks } from "./data-providers";
 
 const rootRoute = createRootRoute({
   component: AppLayout,
@@ -9,7 +17,7 @@ const rootRoute = createRootRoute({
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
-  component: EmptyPlaylistState,
+  component: ImportPlaylistPage,
 });
 
 const playlistRoute = createRoute({
@@ -62,11 +70,43 @@ function AppLayout() {
   );
 }
 
-function EmptyPlaylistState() {
+function ImportPlaylistPage() {
+  const [sourceUrl, setSourceUrl] = useState("");
+  const importPlaylist = useImportPlaylist();
+  const navigate = useNavigate();
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const trimmedUrl = sourceUrl.trim();
+    if (trimmedUrl.length === 0) {
+      return;
+    }
+
+    importPlaylist.mutate(trimmedUrl, {
+      onSuccess: (data) => {
+        void navigate({ params: { playlistId: data.publicId }, to: "/playlists/$playlistId" });
+      },
+    });
+  }
+
   return (
     <PageHeader>
       <Kicker>Playlists</Kicker>
-      <Title>Select a playlist</Title>
+      <Title>Import a Spotify playlist</Title>
+      <ImportForm onSubmit={handleSubmit}>
+        <ImportInput
+          disabled={importPlaylist.isPending}
+          onChange={(event) => setSourceUrl(event.target.value)}
+          placeholder="https://open.spotify.com/playlist/..."
+          type="url"
+          value={sourceUrl}
+        />
+        <ImportButton disabled={importPlaylist.isPending} type="submit">
+          {importPlaylist.isPending ? "Importing…" : "Import"}
+        </ImportButton>
+      </ImportForm>
+      {importPlaylist.isError ? <ErrorText>{importPlaylist.error.message}</ErrorText> : null}
     </PageHeader>
   );
 }
@@ -226,6 +266,39 @@ const Title = styled("h2")`
 const HeaderMeta = styled("p")`
   color: #646b76;
   margin: 10px 0 0;
+`;
+
+const ImportForm = styled("form")`
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  margin-top: 12px;
+  max-width: 560px;
+`;
+
+const ImportInput = styled("input")`
+  border: 1px solid #dfe4ea;
+  border-radius: 8px;
+  font-size: 15px;
+  padding: 10px 12px;
+
+  &:disabled {
+    background: #f5f7f9;
+  }
+`;
+
+const ImportButton = styled("button")`
+  background: #366853;
+  border: 0;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 10px 18px;
+
+  &:disabled {
+    background: #a8b6ae;
+  }
 `;
 
 const TrackList = styled("div")`

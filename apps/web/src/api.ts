@@ -54,3 +54,18 @@ export async function getPlaylistTracks(playlistId: string) {
 
   return (await response.json()) as { tracks: PlaylistTrack[] };
 }
+
+export async function importPlaylist(sourceUrl: string) {
+  const response = await fetch(`${apiUrl}/playlists`, {
+    body: JSON.stringify({ sourceUrl }),
+    headers: { "Content-Type": "application/json" },
+    method: "POST",
+  });
+
+  if (!response.ok) {
+    const body = (await response.json().catch(() => null)) as { message?: string } | null;
+    throw new Error(body?.message ?? "Failed to import playlist.");
+  }
+
+  return (await response.json()) as { publicId: string };
+}

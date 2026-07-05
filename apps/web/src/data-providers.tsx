@@ -1,6 +1,12 @@
-import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { createContext, type ReactNode, useContext, useState } from "react";
-import { getPlaylistTracks, getPlaylists } from "./api";
+import { getPlaylistTracks, getPlaylists, importPlaylist } from "./api";
 
 type DataProviderProps = {
   children: ReactNode;
@@ -57,5 +63,16 @@ export function useTracks(playlistId: string) {
     queryFn: () => getPlaylistTracks(playlistId),
     queryKey: ["playlist-tracks", playlistId],
     select: (data) => data.tracks,
+  });
+}
+
+export function useImportPlaylist() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: importPlaylist,
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["playlists"] });
+    },
   });
 }
