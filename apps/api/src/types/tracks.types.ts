@@ -4,6 +4,17 @@ import type { TrackLinkSource, TrackLinkStatus, TrackLinkType } from "./track-li
 
 export type NewTrack = InferInsertModel<typeof tracks>;
 
+export type ResolveTrackInput = {
+  albumName: string | null;
+  artistName: string;
+  durationMs: number | null;
+  externalId: string;
+  externalUrl: string | null;
+  isrc: string | null;
+  releaseYear: number | null;
+  title: string;
+};
+
 export type PlaylistTrackWithLinks = {
   albumName: string | null;
   altLinks: {
