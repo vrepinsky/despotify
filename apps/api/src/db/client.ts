@@ -1,4 +1,6 @@
+import type { NodePgQueryResultHKT } from "drizzle-orm/node-postgres";
 import { drizzle } from "drizzle-orm/node-postgres";
+import type { PgDatabase } from "drizzle-orm/pg-core";
 import pg from "pg";
 import { config } from "../config.js";
 import * as schema from "./schema.js";
@@ -18,4 +20,6 @@ export function createDbClient() {
   };
 }
 
-export type DbClient = ReturnType<typeof createDbClient>["db"];
+// Widened to the common PgDatabase base (rather than NodePgDatabase) so repositories
+// can be constructed with either the top-level client or a `db.transaction` callback's tx.
+export type DbClient = PgDatabase<NodePgQueryResultHKT, typeof schema>;
