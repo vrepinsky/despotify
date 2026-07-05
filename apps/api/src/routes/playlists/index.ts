@@ -1,5 +1,9 @@
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
+import { SpotifyApiError } from "../../clients/spotify/spotify.client.js";
+import { importSpotifyPlaylist } from "../../services/import.service.js";
 import {
+  importPlaylistBodySchema,
+  importPlaylistResponseSchema,
   playlistIdParamsSchema,
   playlistTracksResponseSchema,
   playlistsResponseSchema,
@@ -45,6 +49,35 @@ export const playlistRoutes: FastifyPluginAsyncZod = async (app) => {
       );
 
       return { tracks };
+    },
+  );
+
+  app.post(
+    "/playlists",
+    {
+      schema: {
+        body: importPlaylistBodySchema,
+        response: {
+          200: importPlaylistResponseSchema,
+        },
+      },
+    },
+    async (request) => {
+      try {
+        return await importSpotifyPlaylist(app.appContext, request.body.sourceUrl);
+      } catch (error) {
+        if (error instanceof SpotifyApiError) {
+          if (error.status === 404) {
+            throw app.httpErrors.notFound(error.message);
+          }
+
+          throw app.httpErrors.badGateway(error.message);
+        }
+
+        throw app.httpErrors.badRequest(
+          error instanceof Error ? error.message : "Failed to import playlist.",
+        );
+      }
     },
   );
 };

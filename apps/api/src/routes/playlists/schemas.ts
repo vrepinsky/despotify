@@ -47,3 +47,11 @@ export const playlistsResponseSchema = z.object({
 export const playlistTracksResponseSchema = z.object({
   tracks: z.array(trackSchema),
 });
+
+export const importPlaylistBodySchema = z.object({
+  sourceUrl: z.string().url(),
+});
+
+export const importPlaylistResponseSchema = z.object({
+  publicId: z.string(),
+});
