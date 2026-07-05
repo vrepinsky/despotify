@@ -1,7 +1,7 @@
 import { asc, eq, sql } from "drizzle-orm";
 import type { DbClient } from "../db/client.js";
 import { playlistTracks, playlists } from "../db/schema.js";
-import { assertNonEmptyString, assertPublicId, assertUuid } from "../helpers/validation.helper.js";
+import { assertNonEmptyString, assertPublicId } from "../helpers/validation.helper.js";
 import type { NewPlaylist } from "../types/playlists.types.js";
 
 export class PlaylistsRepository {
@@ -67,15 +67,24 @@ export class PlaylistsRepository {
     return playlist ?? null;
   }
 
-  async touchImport(id: string) {
-    assertUuid(id);
-
+  async upsertBySourceUrl(values: NewPlaylist) {
     const [playlist] = await this.db
-      .update(playlists)
-      .set({ lastImportedAt: new Date() })
-      .where(eq(playlists.id, id))
+      .insert(playlists)
+      .values(values)
+      .onConflictDoUpdate({
+        target: playlists.sourceUrl,
+        set: {
+          authorName: values.authorName,
+          description: values.description,
+          imageUrl: values.imageUrl,
+          lastImportedAt: new Date(),
+          metadata: values.metadata,
+          name: values.name,
+          sourcePlaylistId: values.sourcePlaylistId,
+        },
+      })
       .returning();
 
-    return playlist ?? null;
+    return playlist;
   }
 }
