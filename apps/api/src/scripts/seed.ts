@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { createAppContext } from "../app-context.js";
+import { createFingerprint } from "../helpers/fingerprint.helper.js";
 
 type SeedTrack = {
   albumName: string;
@@ -229,16 +230,6 @@ try {
   console.log("Seeded mock playlist import data.");
 } finally {
   await appContext.pool.end();
-}
-
-function createFingerprint(track: SeedTrack) {
-  return [track.artistName, track.title, track.albumName, track.releaseYear]
-    .map((value) =>
-      String(value)
-        .toLowerCase()
-        .replaceAll(/[^a-z0-9]+/g, "-"),
-    )
-    .join(":");
 }
 
 async function requireRecord<T>(record: Promise<T | undefined>) {

@@ -8,7 +8,8 @@ import {
 } from "fastify-type-provider-zod";
 import { createAppContext } from "./app-context.js";
 import { config } from "./config.js";
-import { healthRoutes } from "./routes/health.js";
+import { healthRoutes } from "./routes/health/index.js";
+import { playlistRoutes } from "./routes/playlists/index.js";
 
 export async function buildApp() {
   const appContext = createAppContext();
@@ -32,6 +33,7 @@ export async function buildApp() {
   });
 
   await app.register(healthRoutes);
+  await app.register(playlistRoutes);
 
   return app;
 }

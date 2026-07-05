@@ -1,8 +1,8 @@
-import { eq, type InferInsertModel } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import type { DbClient } from "../db/client.js";
 import { trackLinks } from "../db/schema.js";
-
-type NewTrackLink = InferInsertModel<typeof trackLinks>;
+import { assertUuid } from "../helpers/validation.helper.js";
+import type { NewTrackLink } from "../types/track-links.types.js";
 
 export class TrackLinksRepository {
   constructor(private readonly db: DbClient) {}
@@ -30,6 +30,8 @@ export class TrackLinksRepository {
   }
 
   async markIncorrect(id: string) {
+    assertUuid(id);
+
     const [link] = await this.db
       .update(trackLinks)
       .set({

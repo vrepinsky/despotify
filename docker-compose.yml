@@ -16,7 +16,7 @@ services:
       retries: 10
 
   api:
-    image: node:22-alpine
+    image: node:24-alpine
     working_dir: /workspace
     environment:
       API_ALLOWED_WEB_ORIGIN: ${API_ALLOWED_WEB_ORIGIN:-http://localhost:3000}
@@ -35,7 +35,7 @@ services:
     command: sh -c "corepack enable && pnpm install && pnpm --filter @despotify/api dev"
 
   web:
-    image: node:22-alpine
+    image: node:24-alpine
     working_dir: /workspace
     depends_on:
       - api
